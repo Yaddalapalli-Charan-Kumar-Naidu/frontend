@@ -23,14 +23,25 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import CodeIcon from '@mui/icons-material/Code';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home'; // Import Home icon
+import GroupsIcon from '@mui/icons-material/Groups';
+import SchoolIcon from '@mui/icons-material/School';
+import ForumIcon from '@mui/icons-material/Forum';
+import WorkIcon from '@mui/icons-material/Work';
+
 import { GroupIcon } from 'lucide-react';
 import { useSelector } from 'react-redux';
 
 const NAV_ITEMS = [
+<<<<<<< HEAD
   { label: 'Discussion Forum', icon: <CodeIcon />, subItems: [
       { label: 'Thread', route: "/dashboard/threads" },
     ],
   },
+=======
+  { label: 'Home', icon: <HomeIcon />, route: "/dashboard/home" }, // Home item
+  { label: 'Discussion', icon: <ForumIcon />, route: "/dashboard/threads" },
+>>>>>>> 4c58aec0ac7cbd1787276f5efda8293e31be9e29
   {
     label: 'Schedules',
     icon: <ListAltIcon />,
@@ -38,13 +49,18 @@ const NAV_ITEMS = [
   },
   {
     label: 'Clubs',
-    icon: <GroupIcon />,
+    icon: <GroupsIcon />,
     route: "/dashboard/clubs",
   },
   {
     label: 'Jobs',
-    icon: <GroupIcon />,
+    icon: <WorkIcon />,
     route: "/dashboard/jobs",
+  },
+  {
+    label: 'Alumni',
+    icon: <SchoolIcon />,
+    route: "/dashboard/alumni",
   }
 ];
 
@@ -94,13 +110,18 @@ function Dashboard() {
         height: "100%",
         p: 2,
         transition: "width 0.3s ease",
+<<<<<<< HEAD
         width: isHovered ? 240 : 72, // Expand width on hover
+=======
+        width: isHovered ? 240 : 0, // Expand width on hover
+>>>>>>> 4c58aec0ac7cbd1787276f5efda8293e31be9e29
       }}
       onMouseEnter={() => setIsHovered(true)} // Handle hover in
       onMouseLeave={() => setIsHovered(false)} // Handle hover out
     >
       {/* Navigation Items */}
       <List sx={{ p: 0, display: "flex", flexDirection: "column", alignItems: "center", flexGrow: 1 }}>
+<<<<<<< HEAD
   {NAV_ITEMS.map((item) => (
     <div key={item.label}>
       <ListItem
@@ -178,10 +199,97 @@ function Dashboard() {
     </div>
   ))}
 </List>
+=======
+        {NAV_ITEMS.map((item) => (
+          <div key={item.label}>
+            <ListItem
+              button
+              onClick={() => item.subItems ? handleItemClick(item.label) : navigate(item.route)}
+              sx={{
+                mb: 1,
+                cursor: "pointer",
+                borderRadius: 2,
+                backgroundColor: location.pathname === item.route ? "#87CEEB" : "transparent",
+                "&:hover": { backgroundColor: "#87CEEB", opacity: 1.5 },
+                transition: "background-color 0.3s ease",
+                width: "100%", // Ensures it takes the full width
+                display: "flex",
+                alignItems: "center", // Proper alignment of icon and text
+                justifyContent: isHovered ? "flex-start" : "center", // Center icons when collapsed
+                px: 2
+              }}
+            >
+              <ListItemIcon 
+                sx={{ 
+                  color: "white", 
+                  minWidth: "40px", 
+                  width: "40px", 
+                  height: "40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.label}
+                sx={{
+                  color: "white",
+                  opacity: isHovered ? 1 : 0, // Show text only on hover
+                  transition: "opacity 0.3s ease",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  width: isHovered ? "140px" : "0px", // Proper width handling
+                  textAlign: "left",
+                }}
+              />
+              {item.subItems && isHovered && ( // Show expand icon only on hover
+                openSubNav === item.label ? <ExpandLess sx={{ color: "white" }} /> : <ExpandMore sx={{ color: "white" }} />
+              )}
+            </ListItem>
+
+            {/* Sub-Menu */}
+            {item.subItems && (
+              <Collapse in={openSubNav === item.label && isHovered} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {item.subItems.map((subItem) => (
+                    <ListItem
+                      button
+                      key={subItem.label}
+                      onClick={() => handleSubItemClick(subItem.route)}
+                      sx={{
+                        pl: 4,
+                        cursor: "pointer",
+                        borderRadius: 2,
+                        backgroundColor: location.pathname === subItem.route ? "#87CEEB" : "transparent",
+                        "&:hover": { backgroundColor: "#87CEEB", opacity: 1.8 },
+                        transition: "background-color 0.3s ease",
+                      }}
+                    >
+                      <ListItemText
+                        primary={subItem.label}
+                        sx={{
+                          color: "white",
+                          opacity: isHovered ? 1 : 0, // Show text only on hover
+                          transition: "opacity 0.3s ease",
+                        }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            )}
+          </div>
+        ))}
+      </List>
+>>>>>>> 4c58aec0ac7cbd1787276f5efda8293e31be9e29
 
       {/* Profile Section at Bottom */}
       <Box
         sx={{
+<<<<<<< HEAD
           textAlign: "center",
           p: 2,
           cursor: "pointer",
@@ -204,6 +312,27 @@ function Dashboard() {
             {user?.role}
           </Typography>
         </Box>
+=======
+          width: "100%",
+          position: "absolute", // Fix to bottom
+          bottom: 0,
+          left: 0,
+          textAlign: "center",
+          p: 2,
+          mb: 8,
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          bgcolor: "rgba(255, 255, 255, 0.1)", // Slight background contrast
+        }}
+        onClick={() => navigate("/dashboard/profile")}
+      >
+        <Divider sx={{ backgroundColor: "white", mb: 2, width: "90%" }} />
+        <Avatar sx={{ width: 40, height: 40, bgcolor: "white" }} src={userData.profilePicture}>
+          <AccountCircleIcon sx={{ fontSize: 30, color: "#87CEEB" }} />
+        </Avatar>
+>>>>>>> 4c58aec0ac7cbd1787276f5efda8293e31be9e29
       </Box>
     </Box>
   );
@@ -220,7 +349,14 @@ function Dashboard() {
             position: "fixed",
             top: 64, // Start sidebar below the navbar (assuming navbar height is 64px)
             left: 0,
+<<<<<<< HEAD
             background: "linear-gradient(135deg, #87CEEB, #00BFFF)",
+=======
+            background: `
+              linear-gradient(135deg,#1f8adb, #45a8f5),
+              url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")
+            `, // Gradient + subtle pattern
+>>>>>>> 4c58aec0ac7cbd1787276f5efda8293e31be9e29
             p: 2,
             display: "flex",
             flexDirection: "column",
@@ -271,7 +407,10 @@ function Dashboard() {
         sx={{
           '& .MuiDrawer-paper': {
             width: 240,
-            background: "linear-gradient(135deg, #87CEEB, #00BFFF)",
+            background: `
+              linear-gradient(135deg, #87CEEB, #00BFFF),
+              url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")
+            `, // Gradient + subtle pattern
             transition: 'transform 0.3s ease-in-out', // Sliding animation
           },
         }}

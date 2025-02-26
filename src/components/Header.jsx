@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice"; // Import the logout action
+import Cookies from "js-cookie"
 import axios from "axios";
 
 const Header = () => {
@@ -10,13 +11,18 @@ const Header = () => {
   const [homeMenuOpen, setHomeMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [hoveringHome, setHoveringHome] = useState(false);
+  const [token, setToken] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector((state) => state.auth); // Get user and auth status from Redux
+  // console.log(Cookies.get('token'));
   let homeTimeout;
 
   useEffect(() => {
-    
+    const token = Cookies.get("token");
+    setToken(token);
+    console.log("Token from Cookies:", token);
+
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -55,7 +61,8 @@ const Header = () => {
         <Link to="/">
           <img
             // src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740547517/1630586594017_be838m.jpg"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
+            // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
+            src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740603461/WhatsApp_Image_2025-02-27_at_02.26.16_jxjzfv.jpg"
             alt="Logo"
             className="h-11 w-11 rounded-full"
           />
@@ -99,16 +106,7 @@ const Header = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center space-x-6">
-        {["services", "rewards"].map((link) => (
-          <Link
-            key={link}
-            to={`/${link}`}
-            className="text-gray-700 font-medium hover:text-[#B5651D] transition"
-          >
-            Our {link.charAt(0).toUpperCase() + link.slice(1)}
-          </Link>
-        ))}
-        {isAuthenticated ? (
+        { (token!=null) ? (
           <div className="flex items-center space-x-4">
             {/* <img
               src={user?.profilePicture || "https://via.placeholder.com/40"} // Use user's profile picture or a placeholder
@@ -117,7 +115,7 @@ const Header = () => {
             /> */}
             <button
               onClick={handleLogout}
-              className="text-white font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
+              className="text-white bg-[#fc0307] font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
             >
               Logout
             </button>
@@ -183,20 +181,10 @@ const Header = () => {
               </div>
             )}
           </div>
-          {["services", "rewards"].map((link) => (
-            <Link
-              key={link}
-              to={`/${link}`}
-              className="text-gray-700 font-semibold hover:text-[#B5651D] transition"
-              onClick={() => setMenuOpen(false)}
-            >
-              Our {link.charAt(0).toUpperCase() + link.slice(1)}
-            </Link>
-          ))}
-          {isAuthenticated ? (
+          {(token!=null) ? (
             <button
               onClick={handleLogout}
-              className="bg-[#B5651D] text-white font-medium text-sm px-4 py-2 rounded hover:bg-[#D94E41] transition"
+              className="bg-[#fc0307] text-white font-medium text-sm px-4 py-2 rounded hover:bg-[#D94E41] transition"
             >
               Logout
             </button>
